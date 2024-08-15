@@ -34,9 +34,9 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
+        coverage: none
         ini-values: post_max_size=256M, max_execution_time=180
         tools: phpunit:${{ matrix.phpunit-versions }}
-    - run: phpenv config-rm xdebug.ini
     - run: pear list
     - run: pear channel-update pear.php.net
     - run: pear upgrade --force pear/pear
