@@ -1,0 +1,50 @@
+name: Main
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - release/**
+  pull_request:
+    branches:
+      - main
+      - master
+      - release/**
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  run:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: ['ubuntu-latest', 'windows-latest', 'macos-latest']
+        php-versions: ['7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3']
+        phpunit-versions: ['latest']
+    steps:
+    - name: Get source code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-versions }}
+        ini-values: post_max_size=256M, max_execution_time=180
+        tools: phpunit:${{ matrix.phpunit-versions }}
+    - run: phpenv config-rm xdebug.ini
+    - run: pear list
+    - run: pear channel-update pear.php.net
+    - run: pear upgrade --force pear/pear
+    - run: pear list
+    - run: pear install --force package.xml
+    - run: pear list
+    - run: pear package
+    - run: pear package-validate
+    - run: pear install --force *.tgz
+    - run: pear list
+    - run: composer install
+    - run: ./vendor/bin/phpunit -c phpunit.xml.dist
