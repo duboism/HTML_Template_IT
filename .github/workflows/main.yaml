@@ -37,15 +37,15 @@ jobs:
         coverage: none
         ini-values: post_max_size=256M, max_execution_time=180
         tools: phpunit:${{ matrix.phpunit-versions }}
-    - run: pear list
-    - run: pear channel-update pear.php.net
-    - run: pear upgrade --force pear/pear
-    - run: pear list
-    - run: pear install --force package.xml
-    - run: pear list
-    - run: pear package
-    - run: pear package-validate
-    - run: pear install --force *.tgz
-    - run: pear list
+    - run: sudo pear list
+    - run: sudo pear channel-update pear.php.net
+    - run: sudo pear upgrade --force pear/pear
+    - run: sudo pear list
+    - run: sudo pear install --force package.xml
+    - run: sudo pear list
+    - run: sudo pear package
+    - run: sudo pear package-validate
+    - run: sudo pear install --force *.tgz
+    - run: sudo pear list
     - run: composer install
     - run: ./vendor/bin/phpunit -c phpunit.xml.dist
