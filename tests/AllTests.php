@@ -1,4 +1,6 @@
 <?php
+require_once 'vendor/yoast/phpunit-polyfills/phpunitpolyfills-autoload.php';
+
 if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'HTML_Template_IT_AllTests::main');
 }
