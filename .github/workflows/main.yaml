@@ -24,7 +24,6 @@ jobs:
       matrix:
         operating-system: ['ubuntu-latest'] #, 'windows-latest', 'macos-latest']
         php-versions: ['5.6', '7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3']
-        phpunit-versions: ['latest']
     steps:
     - name: Get source code
       uses: actions/checkout@v4
@@ -36,7 +35,6 @@ jobs:
         php-version: ${{ matrix.php-versions }}
         coverage: none
         ini-values: post_max_size=256M, max_execution_time=180
-        tools: phpunit:${{ matrix.phpunit-versions }}
     - run: sudo pear list
     - run: sudo pear channel-update pear.php.net
     - run: sudo pear upgrade --force pear/pear
